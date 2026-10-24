@@ -1,15 +1,13 @@
 import React from 'react';
-import { Heart, ExternalLink, MapPin, Mail, Clock, Shield } from 'lucide-react';
+import { Heart, ExternalLink, MapPin, Mail, Clock } from 'lucide-react';
 
 interface FooterProps {
-  onOpenAdmin: () => void;
   cotizupParkingUrl: string;
   cotizupGeneralUrl: string;
   mawaqitUrl: string;
 }
 
 export const Footer: React.FC<FooterProps> = ({
-  onOpenAdmin,
   cotizupParkingUrl,
   cotizupGeneralUrl,
   mawaqitUrl,
@@ -45,16 +43,6 @@ export const Footer: React.FC<FooterProps> = ({
             <p className="text-xs text-emerald-100/70 leading-relaxed">
               Au service des fidèles de Saint-Sulpice et les environs. Lieu de prière, de fraternité et de transmission. Association cultuelle et culturelle régie par la loi 1901.
             </p>
-
-            <div className="pt-1">
-              <button
-                onClick={onOpenAdmin}
-                className="inline-flex items-center gap-1.5 text-xs text-emerald-300/80 hover:text-amber-300 transition-colors cursor-pointer"
-              >
-                <Shield className="w-3.5 h-3.5" />
-                <span>Espace de mise à jour des bénévoles</span>
-              </button>
-            </div>
           </div>
 
           {/* Col 2: Navigation Rapide */}
@@ -128,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  Ouvert pour les 5 prières quotidiennes et le sermon du vendredi (Joumou’a : Khotba à 13h41 suivie directement de la prière).
+                  Ouvert pour les 5 prières quotidiennes et le sermon du vendredi (Joumou’a : Khotba à 13h suivie de la prière à 13h20/13h30).
                 </div>
               </div>
             </div>

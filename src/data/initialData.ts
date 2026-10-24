@@ -1,4 +1,4 @@
-import { NewsItem, ActivityItem, ProjectCampaign, VolunteerConfig } from '../types';
+import { NewsItem, ActivityItem, ProjectCampaign, SiteConfig } from '../types';
 
 export const INITIAL_NEWS: NewsItem[] = [
   {
@@ -118,13 +118,9 @@ export const INITIAL_PROJECT: ProjectCampaign = {
   ],
 };
 
-export const INITIAL_VOLUNTEER_CONFIG: VolunteerConfig = {
+export const INITIAL_SITE_CONFIG: SiteConfig = {
   alertBannerEnabled: true,
   alertBannerText: '📢 Rentrée 2026-2027 : cours d’arabe débutés début septembre (7-17 ans complets). Soutenez le projet du parking !',
   alertBannerLinkText: 'Voir le projet parking',
   alertBannerLinkHref: '#projet-parking',
-  parkingCurrentAmount: 1437,
-  parkingTargetAmount: 50000,
-  parkingDonorsCount: 29,
-  adminPin: 'Salem81#Benevole2026',
 };

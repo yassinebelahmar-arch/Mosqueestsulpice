@@ -47,14 +47,10 @@ export interface ProjectCampaign {
   }[];
 }
 
-export interface VolunteerConfig {
+export interface SiteConfig {
   alertBannerEnabled: boolean;
   alertBannerText: string;
   alertBannerLinkText?: string;
   alertBannerLinkHref?: string;
-  parkingCurrentAmount: number;
-  parkingTargetAmount: number;
-  parkingDonorsCount: number;
   prayerTimesOverride?: Record<string, string>;
-  adminPin: string;
 }

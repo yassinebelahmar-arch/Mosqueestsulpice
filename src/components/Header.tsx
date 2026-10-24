@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Menu, X, Heart, Shield, ExternalLink } from 'lucide-react';
+import { Menu, X, Heart, ExternalLink } from 'lucide-react';
 
 interface HeaderProps {
-  onOpenAdmin: () => void;
   cotizupUrl: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, cotizupUrl }) => {
+export const Header: React.FC<HeaderProps> = ({ cotizupUrl }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -65,23 +64,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, cotizupUrl }) => {
             ))}
           </nav>
 
-          {/* Zone 3: Primary CTA + Volunteer Admin Trigger - ALWAYS 100% VISIBLE ON MOBILE, TABLET & PC */}
-          <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2.5 shrink-0 ml-auto lg:ml-0 z-10">
-            {/* Volunteer Admin Button: Icon-only on mobile (< sm), icon+text on tablet/desktop */}
-            <button
-              onClick={onOpenAdmin}
-              className="inline-flex items-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 md:px-3 md:py-2 text-xs font-semibold text-emerald-100 hover:text-white bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 rounded-lg sm:rounded-xl transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer whitespace-nowrap"
-              title="Espace gestion bénévoles"
-              aria-label="Accéder à l'espace bénévoles"
-            >
-              <Shield className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span className="hidden sm:inline">Bénévoles</span>
-            </button>
-
+          {/* Zone 3: Primary CTA (Faire un don) - ALWAYS 100% VISIBLE ON MOBILE, TABLET & PC */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto lg:ml-0 z-10">
             {/* Primary Action Button: Faire un don - firmly fits inside viewport on any device */}
             <a
               href="#projet-parking"
-              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2 text-xs sm:text-sm font-bold text-emerald-950 bg-amber-400 hover:bg-amber-300 rounded-lg sm:rounded-xl shadow-md transition-all transform active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-200 whitespace-nowrap shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 text-xs sm:text-sm font-bold text-emerald-950 bg-amber-400 hover:bg-amber-300 rounded-lg sm:rounded-xl shadow-md transition-all transform active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-200 whitespace-nowrap shrink-0 cursor-pointer"
             >
               <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-emerald-950 shrink-0" />
               <span>Faire un don</span>
@@ -126,16 +114,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, cotizupUrl }) => {
               <span>Soutenir le parking sur CotizUp</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAdmin();
-              }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium text-emerald-200 bg-emerald-950/70 border border-emerald-800 rounded-lg hover:text-white cursor-pointer"
-            >
-              <Shield className="w-3.5 h-3.5 text-amber-400" />
-              <span>Espace de mise à jour des bénévoles</span>
-            </button>
           </div>
         </div>
       )}
