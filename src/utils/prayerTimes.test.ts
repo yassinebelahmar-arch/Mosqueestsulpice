@@ -6,6 +6,7 @@ import {
   formatCountdown,
   calculateIqamaTime,
   getPrayerScheduleInfo,
+  getJumuaTime,
 } from './prayerTimes.ts';
 
 test('calculateIqamaTime strictly enforces Maghrib as Adhan + 5 min', () => {
@@ -75,15 +76,23 @@ test('getPrayerScheduleInfo correctly wraps to Fajr tomorrow night when all sala
   assert.equal(info.formattedCountdown, '7h 57min');
 });
 
-test('Friday Joumou\'a strictly follows Dhuhr time', () => {
-  // Friday Oct 23, 2026
-  const fridayDate = new Date('2026-10-23T11:00:00');
-  const dhuhrTime = '13:42';
-  const info = getPrayerScheduleInfo(fridayDate, { dhuhr: dhuhrTime });
+test('getJumuaTime switches to 13h00 starting from Sunday 25 Oct 2026', () => {
+  // Before Sunday (e.g. Saturday 24 Oct)
+  const beforeSunday = new Date('2026-10-24T12:00:00');
+  assert.equal(getJumuaTime(beforeSunday), '13:40');
 
+  // Sunday 25 Oct (start of winter time)
+  const sunday = new Date('2026-10-25T10:00:00');
+  assert.equal(getJumuaTime(sunday), '13:00');
+
+  // Friday 30 Oct 2026 (first Friday after switch)
+  const fridayWinter = new Date('2026-10-30T11:00:00');
+  assert.equal(getJumuaTime(fridayWinter), '13:00');
+
+  const info = getPrayerScheduleInfo(fridayWinter);
   assert.equal(info.isFriday, true);
   assert.equal(info.nextPrayer.id, 'dhuhr');
   assert.equal(info.nextPrayer.name, "Joumou'a");
-  assert.equal(info.nextPrayer.time, dhuhrTime); // Strictly Dhuhr time!
+  assert.equal(info.nextPrayer.time, '13:00');
   assert.equal(info.nextPrayer.iqama, 'Après Khotba');
 });

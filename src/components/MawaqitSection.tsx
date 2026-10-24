@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Clock, Calendar, Info, RefreshCw, AlertCircle, CalendarDays, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
-import { getPrayerScheduleInfo, OFFICIAL_MAWAQIT_NOTICE, calculateIqamaTime } from '../utils/prayerTimes';
+import { getPrayerScheduleInfo, OFFICIAL_MAWAQIT_NOTICE, calculateIqamaTime, getJumuaTime } from '../utils/prayerTimes';
 import { getMonthlyCalendar, MONTH_NAMES_FR, DayPrayerSchedule } from '../utils/prayerCalendar';
 
 interface MawaqitSectionProps {
@@ -40,7 +40,7 @@ export const MawaqitSection: React.FC<MawaqitSectionProps> = ({ mawaqitUrl }) =>
       maghrib: '19:09',
       isha: '20:27',
     },
-    jumua: '13:41',
+    jumua: '13:00',
     calendar: null,
   });
 
@@ -92,10 +92,11 @@ export const MawaqitSection: React.FC<MawaqitSectionProps> = ({ mawaqitUrl }) =>
   );
 
   const isFriday = scheduleInfo.isFriday;
+  const jumuaTime = getJumuaTime(today); // 13:00 à partir de dimanche
 
   const fajrAdhan = liveData.times.fajr || '07:00';
   const shurukAdhan = liveData.times.shuruk || '08:16';
-  const dhuhrAdhan = liveData.times.dhuhr || '13:40'; // Joumou'a suit strictement l'heure du Dohr
+  const dhuhrAdhan = isFriday ? jumuaTime : (liveData.times.dhuhr || '13:40');
   const asrAdhan = liveData.times.asr || '16:34';
   const maghribAdhan = liveData.times.maghrib || '19:04';
   const ishaAdhan = liveData.times.isha || '20:17';
@@ -122,9 +123,9 @@ export const MawaqitSection: React.FC<MawaqitSectionProps> = ({ mawaqitUrl }) =>
       name: isFriday ? "Joumou'a (Dhuhr)" : 'Dhuhr',
       arabic: isFriday ? 'الجمعة' : 'الظهر',
       adhan: dhuhrAdhan,
-      iqama: isFriday ? 'Après la Khotba' : calculateIqamaTime('dhuhr', dhuhrAdhan),
+      iqama: isFriday ? '13h20 / 13h30' : calculateIqamaTime('dhuhr', dhuhrAdhan),
       note: isFriday
-        ? `Vendredi : Khotba à l'heure du Dohr (${dhuhrAdhan}) — Salat juste après`
+        ? 'Vendredi : Khotba à 13h suivie de la prière à 13h20/13h30'
         : '10 min après l’Adhan',
     },
     {
@@ -271,13 +272,13 @@ export const MawaqitSection: React.FC<MawaqitSectionProps> = ({ mawaqitUrl }) =>
             </div>
             <div>
               <div className="inline-block text-[11px] font-bold uppercase tracking-wider text-amber-300">
-                Prière du Vendredi · Joumou’a
+                Vendredi · Joumou'a
               </div>
               <h3 className="font-editorial text-xl sm:text-2xl font-bold text-white">
-                Khotba à l'heure du Dohr ({dhuhrAdhan}) — Salat juste après
+                Khotba 13h
               </h3>
-              <p className="text-xs sm:text-sm text-emerald-100/80 mt-0.5">
-                Chaque vendredi, Joumou’a suit strictement l'heure du Dohr. Le sermon (Khotba) débute à l'heure du Dohr et la prière s’enchaîne immédiatement après.
+              <p className="text-xs sm:text-sm text-emerald-100/90 mt-1 leading-relaxed">
+                La Khotba débute à 13h suivie de la prière à 13h20/13h30. Nous rappelons à l’ensemble des fidèles de veiller scrupuleusement au respect du voisinage, de ne pas bloquer les voies de circulation ni les sorties des riverains.
               </p>
             </div>
           </div>
@@ -497,8 +498,8 @@ export const MawaqitSection: React.FC<MawaqitSectionProps> = ({ mawaqitUrl }) =>
                         </td>
                         <td className="py-2.5 px-2.5 font-mono text-stone-900">
                           {isFriRow ? (
-                            <span className="text-emerald-900 font-bold bg-emerald-100/90 px-1.5 py-0.5 rounded" title="Joumou'a suit l'heure du Dohr">
-                              {day.dhuhr}*
+                            <span className="text-emerald-900 font-bold bg-emerald-100/90 px-1.5 py-0.5 rounded" title="Joumou'a : 13h00">
+                              {day.dhuhr}
                             </span>
                           ) : (
                             day.dhuhr
@@ -525,7 +526,7 @@ export const MawaqitSection: React.FC<MawaqitSectionProps> = ({ mawaqitUrl }) =>
               <span className="flex items-center gap-1.5">
                 <Info className="w-4 h-4 text-amber-700 shrink-0" />
                 <span>
-                  * <strong>Vendredi (Joumou’a) :</strong> Joumou’a suit strictement l'heure du Dohr. La Khotba commence à l'heure exacte du Dohr (colonne Dhuhr ci-dessus), et la Salat a lieu immédiatement après. Fajr : Iqama immédiate.
+                  <strong>Vendredi (Joumou’a) :</strong> Khotba à 13h00 (Salat juste après).
                 </span>
               </span>
               <a

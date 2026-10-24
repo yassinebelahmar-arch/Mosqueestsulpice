@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Calendar, CalendarDays, ExternalLink } from 'lucide-react';
-import { getPrayerScheduleInfo, formatFrenchDate, calculateIqamaTime } from '../utils/prayerTimes';
+import { getPrayerScheduleInfo, formatFrenchDate, calculateIqamaTime, getJumuaTime } from '../utils/prayerTimes';
 
 interface PrayerTimesStripProps {
   mawaqitUrl: string;
@@ -35,7 +35,7 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
       maghrib: '19:09',
       isha: '20:27',
     },
-    jumua: '13:41',
+    jumua: '13:00',
   });
 
   useEffect(() => {
@@ -76,7 +76,8 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
   // Fajr, Dhuhr, Asr, Maghrib, Isha
   const isFri = scheduleInfo.isFriday;
   const fajrTime = effectiveTimes?.fajr || '07:00';
-  const dhuhrTime = effectiveTimes?.dhuhr || '13:40'; // Joumou'a suit l'heure du Dohr
+  const jumuaTime = getJumuaTime(currentDate); // 13:00 à partir de dimanche
+  const dhuhrTime = isFri ? jumuaTime : (effectiveTimes?.dhuhr || '13:40');
   const asrTime = effectiveTimes?.asr || '16:34';
   const maghribTime = effectiveTimes?.maghrib || '19:04';
   const ishaTime = effectiveTimes?.isha || '20:17';
@@ -94,8 +95,8 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
       label: isFri ? "Joumou'a" : 'Dhuhr',
       arabic: isFri ? 'الجمعة' : 'الظهر',
       time: dhuhrTime,
-      iqama: isFri ? 'Après Khotba' : calculateIqamaTime('dhuhr', dhuhrTime),
-      subtitle: isFri ? 'Khotba' : undefined,
+      iqama: isFri ? '13h20/30' : calculateIqamaTime('dhuhr', dhuhrTime),
+      subtitle: isFri ? 'Khotba 13h' : undefined,
     },
     {
       id: 'asr',
@@ -146,7 +147,7 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
               <>
                 <span className="text-stone-300 hidden md:inline">|</span>
                 <span className="text-[11px] sm:text-xs text-emerald-800 font-semibold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                  Joumou'a : Khotba à {dhuhrTime} (Salat juste après)
+                  Vendredi (Joumou'a) : Khotba 13h · Prière à 13h20/13h30
                 </span>
               </>
             )}

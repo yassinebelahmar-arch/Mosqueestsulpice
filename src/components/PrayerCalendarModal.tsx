@@ -151,7 +151,7 @@ export const PrayerCalendarModal: React.FC<PrayerCalendarModalProps> = ({
         <div className="px-4 py-2 bg-amber-50/80 border-b border-amber-200/80 text-amber-950 text-xs flex items-center gap-2 print:text-[10px]">
           <Info className="w-4 h-4 text-amber-700 shrink-0" />
           <span>
-            <strong>Règle Mosquée SALEM :</strong> Iqama immédiate à Fajr (0 min d’attente). Iqama 10 min après l'Adhan pour Dhuhr, Asr et Isha. Iqama 5 min pour Maghrib. <strong>Joumou’a (Vendredi) :</strong> la Khotba débute à l'heure du Dohr (colonne Dhuhr), la Salat s'enchaîne immédiatement après la Khotba.
+            <strong>Règle Mosquée SALEM :</strong> Iqama immédiate à Fajr (0 min d’attente). Iqama 10 min après l'Adhan pour Dhuhr, Asr et Isha. Iqama 5 min pour Maghrib. <strong>Joumou’a (Vendredi) :</strong> Khotba à 13h00, suivie immédiatement de la prière.
           </span>
         </div>
 

@@ -192,6 +192,14 @@ export function getMonthlyCalendar(
       times = calculateDayTimes(year, month, d);
     }
 
+    // À partir de dimanche (25 octobre 2026), Joumou'a le vendredi est à 13h00
+    if (isFriday) {
+      const winterSwitch = new Date(2026, 9, 25, 0, 0, 0);
+      if (dDate >= winterSwitch) {
+        times.dhuhr = '13:00';
+      }
+    }
+
     list.push({
       day: d,
       dateStr: `${year}-${month.toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`,

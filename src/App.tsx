@@ -25,7 +25,7 @@ import { NewsItem, ActivityItem, ProjectCampaign, VolunteerConfig } from './type
 
 const STORAGE_KEYS = {
   CONFIG: 'mosquee_salem_config_v4',
-  NEWS: 'mosquee_salem_news_v4',
+  NEWS: 'mosquee_salem_news_v5',
   PROJECT: 'mosquee_salem_project_v4',
 };
 

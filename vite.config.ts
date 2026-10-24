@@ -79,7 +79,7 @@ function mosquesDataApiPlugin(): Plugin {
               maghrib: addMinutesToTime(maghrib, 5), // STRICTLY +5 min (e.g. 19:04 -> 19:09)
               isha: addMinutesToTime(isha, 10),   // +10 min
             },
-            jumua: dhuhr, // Joumou'a suit strictement l'heure du Dohr
+            jumua: '13:00', // Joumou'a : 13h00 à partir de dimanche
             announcement: notice,
             calendar: calendar,
           };
@@ -109,7 +109,7 @@ function mosquesDataApiPlugin(): Plugin {
               maghrib: addMinutesToTime(defaultMaghrib, 5), // 19:09
               isha: "20:27",
             },
-            jumua: defaultDhuhr, // Joumou'a suit strictement l'heure du Dohr
+            jumua: '13:00', // Joumou'a : 13h00 à partir de dimanche
             announcement: "Salam Aleïkoum, chers fidèles, nous vous informons qu'étant donné l'heure tardive de la Salat Fajr, les 10 min d'attente entre le Adhan et la prière ont été supprimées.",
             calendar: null,
           };

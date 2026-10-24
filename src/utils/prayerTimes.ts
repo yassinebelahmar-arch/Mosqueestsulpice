@@ -90,6 +90,18 @@ export function formatCountdown(minutes: number): string {
 }
 
 /**
+ * Joumou'a time: À partir de dimanche (25 octobre 2026, passage à l'heure d'hiver),
+ * l'heure du Joumou'a est fixée à 13h00 (Khotba à 13h00, Salat juste après).
+ */
+export function getJumuaTime(date: Date = new Date()): string {
+  const winterSwitch = new Date(2026, 9, 25, 0, 0, 0); // Dimanche 25 Octobre 2026
+  if (date >= winterSwitch) {
+    return '13:00';
+  }
+  return '13:40';
+}
+
+/**
  * Computes next prayer and countdown based on a reference time and prayer schedule
  * Rule: A prayer is active ("En cours") ONLY between Adhan and (Iqama + 10 minutes).
  * Past 10 minutes after Iqama, the prayer is complete and interface transitions to next upcoming prayer.
@@ -104,8 +116,11 @@ export function getPrayerScheduleInfo(
   const isFri = currentDate.getDay() === 5;
 
   const prayersList: CalculatedPrayer[] = DEFAULT_PRAYERS.map((p) => {
-    // Friday Joumou'a strictly follows Dhuhr time
-    const time = timesOverride?.[p.id] || p.defaultTime;
+    let time = timesOverride?.[p.id] || p.defaultTime;
+    // À partir de dimanche, l'heure du Joumou'a est à 13h00
+    if (isFri && p.id === 'dhuhr') {
+      time = jumuaOverride || getJumuaTime(currentDate);
+    }
     const prayerMin = timeToMinutes(time);
     
     // Compute dynamic Iqama based on strict Mosquée SALEM delays
