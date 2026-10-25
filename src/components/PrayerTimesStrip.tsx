@@ -40,7 +40,10 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
 
   useEffect(() => {
     fetch('/api/mawaqit')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable');
+        return res.json();
+      })
       .then((data) => {
         if (data?.times) {
           setLiveData({
@@ -95,8 +98,8 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
       label: isFri ? "Joumou'a" : 'Dhuhr',
       arabic: isFri ? 'الجمعة' : 'الظهر',
       time: dhuhrTime,
-      iqama: isFri ? '13h20/30' : calculateIqamaTime('dhuhr', dhuhrTime),
-      subtitle: isFri ? 'Khotba 13h' : undefined,
+      iqama: isFri ? 'Après khotba' : calculateIqamaTime('dhuhr', dhuhrTime),
+      subtitle: isFri ? 'Adhan 13h' : undefined,
     },
     {
       id: 'asr',
@@ -147,7 +150,7 @@ export const PrayerTimesStrip: React.FC<PrayerTimesStripProps> = ({
               <>
                 <span className="text-stone-300 hidden md:inline">|</span>
                 <span className="text-[11px] sm:text-xs text-emerald-800 font-semibold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                  Vendredi (Joumou'a) : Khotba 13h · Prière à 13h20/13h30
+                  Vendredi (Joumou'a) : Adhan pour Khotba 13h · Salat Après khotba (13h20/13h30)
                 </span>
               </>
             )}

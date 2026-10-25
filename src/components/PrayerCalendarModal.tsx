@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, Printer, ExternalLink, ChevronLeft, ChevronRight, Download, Info } from 'lucide-react';
 import { getMonthlyCalendar, MONTH_NAMES_FR, DayPrayerSchedule } from '../utils/prayerCalendar';
+import { downloadPrayerCalendarPdf } from '../utils/generatePrayerPdf';
 
 interface PrayerCalendarModalProps {
   isOpen: boolean;
@@ -21,7 +22,10 @@ export const PrayerCalendarModal: React.FC<PrayerCalendarModalProps> = ({
   React.useEffect(() => {
     if (isOpen) {
       fetch('/api/mawaqit')
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) throw new Error('API unavailable');
+          return res.json();
+        })
         .then((data) => {
           if (data?.calendar) {
             setMawaqitCalendar(data.calendar);
@@ -53,8 +57,8 @@ export const PrayerCalendarModal: React.FC<PrayerCalendarModalProps> = ({
     }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPdf = () => {
+    downloadPrayerCalendarPdf(selectedYear, selectedMonth, days);
   };
 
   return (
@@ -79,12 +83,21 @@ export const PrayerCalendarModal: React.FC<PrayerCalendarModalProps> = ({
 
           <div className="flex items-center gap-2 print:hidden">
             <button
-              onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-colors cursor-pointer"
-              title="Imprimer le calendrier du mois"
+              onClick={handleDownloadPdf}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-emerald-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-xs cursor-pointer active:scale-95"
+              title="Télécharger le fichier PDF du calendrier"
+            >
+              <Download className="w-4 h-4" />
+              <span>Télécharger PDF</span>
+            </button>
+
+            <button
+              onClick={() => window.print()}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-colors cursor-pointer"
+              title="Imprimer"
             >
               <Printer className="w-4 h-4" />
-              <span className="hidden sm:inline">Imprimer</span>
+              <span>Imprimer</span>
             </button>
 
             <button
@@ -151,7 +164,7 @@ export const PrayerCalendarModal: React.FC<PrayerCalendarModalProps> = ({
         <div className="px-4 py-2 bg-amber-50/80 border-b border-amber-200/80 text-amber-950 text-xs flex items-center gap-2 print:text-[10px]">
           <Info className="w-4 h-4 text-amber-700 shrink-0" />
           <span>
-            <strong>Règle Mosquée SALEM :</strong> Iqama immédiate à Fajr (0 min d’attente). Iqama 10 min après l'Adhan pour Dhuhr, Asr et Isha. Iqama 5 min pour Maghrib. <strong>Joumou’a (Vendredi) :</strong> Khotba à 13h00, suivie immédiatement de la prière.
+            <strong>Règle Mosquée SALEM :</strong> Iqama immédiate à Fajr (0 min d’attente). Iqama 10 min après l'Adhan pour Dhuhr, Asr et Isha. Iqama 5 min pour Maghrib. <strong>Vendredi (Joumou’a) :</strong> Sermon en français puis en arabe · Adhan pour Khotba 13h · Salat Après khotba (13h20 / 13h30).
           </span>
         </div>
 

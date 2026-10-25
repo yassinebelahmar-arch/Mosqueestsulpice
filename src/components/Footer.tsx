@@ -116,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  Ouvert pour les 5 prières quotidiennes et le sermon du vendredi (Joumou’a : Khotba à 13h suivie de la prière à 13h20/13h30).
+                  Ouvert pour les 5 prières quotidiennes et le sermon du vendredi (Joumou’a : Sermon en français puis en arabe · Adhan pour Khotba 13h · Salat Après khotba).
                 </div>
               </div>
             </div>
